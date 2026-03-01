@@ -98,14 +98,16 @@ call plug#begin('~/.vim/plugged')
   "Autocomplete plugin. similar to VSCode
   Plug 'neoclide/coc.nvim', {'branch': 'release'}
     
+  Plug 'puremourning/vimspector'
+
 call plug#end()
 
 " }}}
 
 " MAPEAMENTOS --------------------------------------------------------------- {{{
 
-" Defina a barra invertida como a tecla líder.
-" let mapleader = "\"
+" Defina a vírgula como a tecla líder.
+ let mapleader = ","
 
 " Pressione \\ para voltar à última posição do cursor.
 nnoremap <leader>\ ``
@@ -156,6 +158,9 @@ noremap <c-down> <c-w>-
 noremap <c-left> <c-w>>
 noremap <c-right> <c-w><
 
+"" Tab Split
+noremap tt :tab split<CR>
+
 " Mapeamentos específicos do NERDTree.
 " Mapeie a tecla F3 para alternar entre abrir e fechar o NERDTree.
 nnoremap <F3> :NERDTreeToggle<cr>
@@ -163,7 +168,76 @@ nnoremap <F3> :NERDTreeToggle<cr>
 " Faça o NERDTree ignorar certos arquivos e diretórios.
 let NERDTreeIgnore=['\.git$', '\.jpg$', '\.mp4$', '\.ogg$', '\.iso$', '\.pdf$', '\.pyc$', '\.odt$', '\.png$', '\.gif$', '\.db$']
 
+"" VIMSPECTOR
+
+nnoremap <leader>dc :call vimspector#Continue()<CR>
+nnoremap <leader>ds :call vimspector#Stop()<CR>
+nnoremap <leader>dr :call vimspector#Restart()<CR>
+nnoremap <leader>dp :call vimspector#Pause()<CR>
+nnoremap <leader>dl :call vimspector#ListBreakpoints()<CR>
+nnoremap <leader>dt :call vimspector#ToggleBreakpoint()<CR>
+nnoremap <leader>dk :call vimspector#ToggleConditionalBreakpoint( { trigger expr, hit count expr } )<CR>
+nnoremap <leader>da :call vimspector#AddFunctionBreakpoint()<CR>
+nnoremap <leader>dg :call vimspector#GoToCurrentLine()<CR>
+nnoremap <leader>dm :call vimspector#RunToCursor()<CR>
+
+nnoremap <leader>do :call vimspector#StepOver()<CR>
+nnoremap <leader>dO :call vimspector#StepIOver()<CR>
+nnoremap <leader>DO :call vimspector#StepSOver()<CR>
+
+nnoremap <leader>di :call vimspector#StepInto()<CR>
+nnoremap <leader>dI :call vimspector#StepIInto()<CR>
+nnoremap <leader>DI :call vimspector#StepSInto()<CR>
+
+nnoremap <leader>dq :call vimspector#StepOut()<CR>
+nnoremap <leader>dQ :call vimspector#StepIOut()<CR>
+nnoremap <leader>DQ :call vimspector#StepSOut()<CR>
+
+nnoremap <leader>db :call vimspector#ShowDisassembly()<CR>
+nnoremap <leader>du :call vimspector#UpFrame()<CR>
+nnoremap <leader>dd :call vimspector#DownFrame()<CR>
+nnoremap <leader>dn :call vimspector#JumpToNextBreakpoint()<CR>
+nnoremap <leader>df :call vimspector#JumpToPreviousBreakpoint()<CR>
+nnoremap <leader>dh :call vimspector#JumpToProgramCounter()<CR>
+
+nnoremap <leader>dx :call vimspector#Launch()<CR>
+nnoremap <leader>dy :call vimspector#LaunchWithConfigurations( '<cexpr>' )<CR>
+nnoremap <leader>dz :call vimspector#LaunchWithSettings( '<cexpr>' )<CR>
+nnoremap <leader>de :call vimspector#Reset()<CR>
+
+nnoremap <leader>dv :call vimspector#ClearBreakpoints()<CR>
+nnoremap <leader>dj :call vimspector#SetCurrentThread()<CR>
+
+let g:vimspector_enable_mappings = 'HUMAN'
+
+"NEOCLIDE
+" You have to remap <cr> to make it confirm completion.
+inoremap <expr> <cr> coc#pum#visible() ? coc#pum#confirm() : "\<CR>"
+" To make <cr> select the first completion item and confirm the completion when no item has been selected (Note: \<C-g>u is used to break undo level):
+inoremap <silent><expr> <cr> coc#pum#visible() ? coc#_select_confirm() : "\<C-g>u\<CR>"
+" To make coc.nvim format your code on <cr>:
+inoremap <silent><expr> <cr> coc#pum#visible() ? coc#_select_confirm() : "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+" Use coc#pum#info() if you need to confirm completion, only when there's selected complete item:
+inoremap <silent><expr> <cr> coc#pum#visible() && coc#pum#info()['index'] != -1 ? coc#pum#confirm() : "\<C-g>u\<CR>"
+" use <tab> to trigger completion and navigate to the next complete item (Note: <tab> could be remapped by another plugin, use :verbose imap <tab> to check if it's mapped as expected)
+function! CheckBackspace() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+
+inoremap <silent><expr> <Tab>
+      \ coc#pum#visible() ? coc#pum#next(1) :
+      \ CheckBackspace() ? "\<Tab>" :
+      \ coc#refresh()
+
 " }}}
+" use <c-space> for trigger completion
+inoremap <silent><expr> <c-space> coc#refresh()
+" Use <C-@> on vim
+inoremap <silent><expr> <c-@> coc#refresh()
+" Use <Tab> and <S-Tab> to navigate the completion list:
+inoremap <expr> <Tab> coc#pum#visible() ? coc#pum#next(1) : "\<Tab>"
+inoremap <expr> <S-Tab> coc#pum#visible() ? coc#pum#prev(1) : "\<S-Tab>"
 
 " VIMSCRIPT -------------------------------------------------------------- {{{
 
