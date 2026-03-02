@@ -121,24 +121,5 @@ if [ -f "$HOME/.bash-git-prompt/gitprompt.sh" ]; then
     source "$HOME/.bash-git-prompt/gitprompt.sh"
 fi
 
-alias firefox='/home/victor/firefox_executable.sh'
-
-
 alias battery='((cat /sys/class/power_supply/BAT1/status); ((cat /sys/class/power_supply/BAT1/charge_now ;cat /sys/class/power_supply/BAT1/current_now) | xargs ~/time_left_battery.exe); (cat /sys/class/power_supply/BAT1/capacity)) | cat > ok && echo $(cat ok) |xargs ~/battery_status.exe; rm ok'
 alias set-brightness='/home/victor/percentual-brightness.sh'
-
-# >>> conda initialize >>>
-# !! Contents within this block are managed by 'conda init' !!
-__conda_setup="$('/home/victor/anaconda3/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
-if [ $? -eq 0 ]; then
-    eval "$__conda_setup"
-else
-    if [ -f "/home/victor/anaconda3/etc/profile.d/conda.sh" ]; then
-        . "/home/victor/anaconda3/etc/profile.d/conda.sh"
-    else
-        export PATH="/home/victor/anaconda3/bin:$PATH"
-    fi
-fi
-unset __conda_setup
-# <<< conda initialize <<<
-
