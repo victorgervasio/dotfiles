@@ -1,2 +1,2 @@
-alias get-battery="$HOME/scripts/get-battery.sh"
-alias set-brightness="$HOME/scripts/percentual-brightness.sh"
+alias get-battery="$HOME/scripts/alias/get-battery.sh"
+alias set-brightness="$HOME/scripts/alias/percentual-brightness.sh"
